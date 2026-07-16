@@ -408,7 +408,7 @@ module filesMod
             case(9,10,11)
                 season = 4
         end select
-
+        print *,'season=',season
         !Adjustin dpatmos type vars
         atmosNz=levels
         atmosNx=npi
@@ -417,6 +417,7 @@ module filesMod
         atmosLat(1)=latIni
         atmosXs=dx
         atmosYs=dy
+        print *,'Passo novo'
         if(.not. allocated(atmosLevels)) allocate(atmosLevels(atmosNz))
         do lv=1,nprz
           lvi=nprz-lv+1
@@ -424,7 +425,7 @@ module filesMod
           atmosLevels(lvi)=levpr_grib2(lv)
           slevsInv(lvi)=slevs(lv)
         enddo
-        
+        print *,'atmosLevels allocated'
         if(iStep==1) then
             atmosLat(2) = atmosLat(1) + (atmosYs*atmosNy)
             atmosLon(2) = atmosLon(1) + (atmosXs*atmosNx)
@@ -439,7 +440,7 @@ module filesMod
         
         atmosVarNames = (/wind_u_varname,wind_v_varname,temperature_varname &
                              ,geo_varname,ur_varname/)
-             
+        print *,'atmosVarNames filled' 
         if(.not. allocated(atmosValues)) then
             print *,'Allocating atmosValues, MinAtmosValues and MaxAtmosValues arrays'
             allocate(atmosValues(atmosNv,atmosNx, atmosNy, atmosNz), &
