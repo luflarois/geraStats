@@ -128,8 +128,8 @@ program check
         do n=1,5
           do s=1,4
             do f = 1,6
-              write(*,fmt='("max: ",3(I1,",")," - ",5(E13.5,","))') n,s,f," - ", MaxAtmosValues(n,s,f,1:5)
-              write(*,fmt='("min: ",3(I1,",")," - ",5(E13.5,","))') n,s,f," - ", MinAtmosValues(n,s,f,1:5)
+              write(*,fmt='("max: ",3(I1,",")," - ",5(E13.5,","))') n,s,f, MaxAtmosValues(n,s,f,1:5)
+              write(*,fmt='("min: ",3(I1,",")," - ",5(E13.5,","))') n,s,f, MinAtmosValues(n,s,f,1:5)
             end do
           end do
         end do
