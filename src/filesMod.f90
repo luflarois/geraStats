@@ -325,10 +325,10 @@ module filesMod
           slevs(i) = metadata(j-1:k)
         enddo
         !
-        print *,index(metadata," mb:"),index(metadata,'hour')
+        !print *,index(metadata," mb:"),index(metadata,'hour')
         !print *,'hour: ',metadata(index(metadata," mb:")+4:index(metadata,'hour')-1)
-        print *,'slevs=',slevs
-        print *,'levpr=',levpr_grib2
+        !print *,'slevs=',slevs
+        print *,'APssei aqui levpr='
         !
         !Getting size and geo information in GRIB2 file. Using the first variable (U)
         iErrNumber = grb2_inq(fName,fNameI,trim(varName(1)) &
@@ -341,7 +341,7 @@ module filesMod
         !print *,grid_info
         !print *,invline
     
-        print *,var
+        print *,'Passei no var'
     
         nxGrib=size(var,1)
         nyGrib=size(var,2)
