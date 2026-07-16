@@ -393,11 +393,12 @@ module filesMod
 
         call date_add_to_dble(iyear,imonth,iday,ihour,dble(atmosHoursCount(iStep)),'h' &
                        ,iyy,imm,idd,ihh)
+        print *,'Date added'
         atmosDate(iStep)%year=iyy
         atmosDate(iStep)%month=imm
         atmosDate(iStep)%day=idd
         atmosDate(iStep)%hour=ihh/10000
-    
+        Print *,'AtmosDate filled'
         select case(atmosDate(iStep)%month)
             case(12,1,2)
                 season = 1
