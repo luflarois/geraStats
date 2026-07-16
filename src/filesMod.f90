@@ -308,7 +308,7 @@ module filesMod
         nprz = grb2_inq(fName,fNameI,trim(varname(1)),' mb:')
         allocate(slevs(nprz),levpr_grib2(nprz),slevsInv(nprz))
         !
-        !print *,'nprz=',nprz
+        print *,'nprz=',nprz
         !
         do i = 1,nprz
           ! get pressure leves and levels labels using grb2_inq from wgrib2 lib
@@ -325,10 +325,10 @@ module filesMod
           slevs(i) = metadata(j-1:k)
         enddo
         !
-        !print *,index(metadata," mb:"),index(metadata,'hour')
+        print *,index(metadata," mb:"),index(metadata,'hour')
         !print *,'hour: ',metadata(index(metadata," mb:")+4:index(metadata,'hour')-1)
-        !print *,'slevs=',slevs
-        !print *,'levpr=',levpr_grib2
+        print *,'slevs=',slevs
+        print *,'levpr=',levpr_grib2
         !
         !Getting size and geo information in GRIB2 file. Using the first variable (U)
         iErrNumber = grb2_inq(fName,fNameI,trim(varName(1)) &
@@ -341,18 +341,18 @@ module filesMod
         !print *,grid_info
         !print *,invline
     
-        !print *,var
+        print *,var
     
         nxGrib=size(var,1)
         nyGrib=size(var,2)
     
-        !print *,nxGrib,nyGrib
+        print *,nxGrib,nyGrib
     
         ! Increments lat and lon
         dy=(lat(1,nyGrib)-lat(1,1))/(nyGrib-1)
         dx=(lon(nxGrib,1)-lon(1,1))/(nxGrib-1)
     
-        !print *,dx,dy
+        print *,dx,dy
     
         do j=1,nyGrib
             if(lat(1,j)>initial_latitude) then
@@ -441,6 +441,7 @@ module filesMod
                              ,geo_varname,ur_varname/)
              
         if(.not. allocated(atmosValues)) then
+            print *,'Allocating atmosValues, MinAtmosValues and MaxAtmosValues arrays'
             allocate(atmosValues(atmosNv,atmosNx, atmosNy, atmosNz), &
                 MinAtmosValues(atmosNv,4,6,atmosNz),MaxAtmosValues(atmosNv,4,6,atmosNz))
                 MaxAtmosValues = 1.0e-36
