@@ -125,6 +125,7 @@ program check
     !Read and compute max and min values for each variable in GFS data
     do its=1,stepsBetDates
         call readAtmosGrib2(its,stepsBetDates)
+        if(.not. allocated(atmosValues)) cycle
         do n=1,5
           do s=1,4
             do f = 1,6
