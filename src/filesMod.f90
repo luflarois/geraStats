@@ -572,16 +572,16 @@ module filesMod
                 if (lat<60.0) then !Faxia 1 -90 a -60.25    
                     if(atmosValues(iStep,nVar,ii,jj,lv)<MinAtmosValues(nVar,season,1,lv)) MinAtmosValues(nVar,season,1,lv)=atmosValues(iStep,nVar,ii,jj,lv)
                     if(atmosValues(iStep,nVar,ii,jj,lv)>MaxAtmosValues(nVar,season,1,lv)) MaxAtmosValues(nVar,season,1,lv)=atmosValues(iStep,nVar,ii,jj,lv)
-                elseif(lat<30.0) then !Faxia 2 -60 a -30
+                elseif(lat<30.0) then !Faxia 2 -60 a -30.25
                     if(atmosValues(iStep,nVar,ii,jj,lv)<MinAtmosValues(nVar,season,2,lv)) MinAtmosValues(nVar,season,2,lv)=atmosValues(iStep,nVar,ii,jj,lv)
                     if(atmosValues(iStep,nVar,ii,jj,lv)>MaxAtmosValues(nVar,season,2,lv)) MaxAtmosValues(nVar,season,2,lv)=atmosValues(iStep,nVar,ii,jj,lv)
-                elseif(lat<0.0) then !Faxia 3 -30 a 0
+                elseif(lat<0.0) then !Faxia 3 -30 a 0.25
                     if(atmosValues(iStep,nVar,ii,jj,lv)<MinAtmosValues(nVar,season,3,lv)) MinAtmosValues(nVar,season,3,lv)=atmosValues(iStep,nVar,ii,jj,lv)
                     if(atmosValues(iStep,nVar,ii,jj,lv)>MaxAtmosValues(nVar,season,3,lv)) MaxAtmosValues(nVar,season,3,lv)=atmosValues(iStep,nVar,ii,jj,lv)
-                elseif(lat<30.0) then !Faxia 4 0 a 30
+                elseif(lat<30.0) then !Faxia 4 0 a 29.75
                     if(atmosValues(iStep,nVar,ii,jj,lv)<MinAtmosValues(nVar,season,4,lv)) MinAtmosValues(nVar,season,4,lv)=atmosValues(iStep,nVar,ii,jj,lv)
                     if(atmosValues(iStep,nVar,ii,jj,lv)>MaxAtmosValues(nVar,season,4,lv)) MaxAtmosValues(nVar,season,4,lv)=atmosValues(iStep,nVar,ii,jj,lv)
-                elseif(lat<60.0) then !Faxia 5 30 a 60
+                elseif(lat<60.0) then !Faxia 5 30 a 59.75
                     if(atmosValues(iStep,nVar,ii,jj,lv)<MinAtmosValues(nVar,season,5,lv)) MinAtmosValues(nVar,season,5,lv)=atmosValues(iStep,nVar,ii,jj,lv)
                     if(atmosValues(iStep,nVar,ii,jj,lv)>MaxAtmosValues(nVar,season,5,lv)) MaxAtmosValues(nVar,season,5,lv)=atmosValues(iStep,nVar,ii,jj,lv)
                 else !Faxia 6 60 a 90
