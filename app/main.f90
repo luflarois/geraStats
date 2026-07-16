@@ -63,7 +63,7 @@ program check
       atmos_Type, atmosNx,atmosNy,atmosNz, lat, atmosValues, &
       atmos_idir, &
       grib2FilesNames, &
-      MaxAtmosValues, MinAtmosValues
+      MaxAtmosValues, MinAtmosValues, atmosNv, atmosVarNames
 
     implicit none
 
@@ -95,6 +95,8 @@ program check
     character(len=5) :: zoneNow
     integer :: valuesNow(8)
     integer :: lunit
+
+    character(len=3), dimension(4), parameter :: seasons = (/'DJF','MAM','JJA','SON'/)
 
 
     !Code
@@ -129,8 +131,8 @@ program check
         do n=1,5
           do s=1,4
             do f = 1,6
-              write(*,fmt='("max: ",3(I1,",")," - ",5(E13.5,","))') n,s,f, MaxAtmosValues(n,s,f,1:5)
-              write(*,fmt='("min: ",3(I1,",")," - ",5(E13.5,","))') n,s,f, MinAtmosValues(n,s,f,1:5)
+              write(*,fmt='("max: ",2(A3,","),I1," - ",5(E13.5,","))') atmosVarNames(n),seasons(s),f, MaxAtmosValues(n,s,f,1:5)
+              write(*,fmt='("min: ",2(A3,","),I1," - ",5(E13.5,","))') atmosVarNames(n),seasons(s),f, MinAtmosValues(n,s,f,1:5)
             end do
           end do
         end do
