@@ -391,15 +391,15 @@ module filesMod
         read(invline( 9:10),*,iostat=iErrNumber)  iday
         read(invline(11:12),*,iostat=iErrNumber)  ihour
         print *,'Date from grib2 file: ',iyear,imonth,iday,ihour
-        call date_add_to_dble(iyear,imonth,iday,ihour,dble(atmosHoursCount(iStep)),'h' &
-                       ,iyy,imm,idd,ihh)
-        print *,'Date added'
-        atmosDate(iStep)%year=iyy
-        atmosDate(iStep)%month=imm
-        atmosDate(iStep)%day=idd
-        atmosDate(iStep)%hour=ihh/10000
-        Print *,'AtmosDate filled'
-        select case(atmosDate(iStep)%month)
+        !call date_add_to_dble(iyear,imonth,iday,ihour,dble(atmosHoursCount(iStep)),'h' &
+        !               ,iyy,imm,idd,ihh)
+        !print *,'Date added'
+        !atmosDate(iStep)%year=iyy
+        !atmosDate(iStep)%month=imm
+        !atmosDate(iStep)%day=idd
+        !atmosDate(iStep)%hour=ihh/10000
+        !Print *,'AtmosDate filled'
+        select case(imonth)
             case(12,1,2)
                 season = 1
             case(3,4,5)
