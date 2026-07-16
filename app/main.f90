@@ -128,14 +128,16 @@ program check
     do its=1,stepsBetDates
         call readAtmosGrib2(its,stepsBetDates)
         if(.not. allocated(atmosValues)) cycle
-        do n=1,5
-          do s=1,4
-            do f = 1,6
-              write(*,fmt='("max: ",2(A3,","),I1," - ",5(E13.5,","))') atmosVarNames(n),seasons(s),f, MaxAtmosValues(n,s,f,1:5)
-              write(*,fmt='("min: ",2(A3,","),I1," - ",5(E13.5,","))') atmosVarNames(n),seasons(s),f, MinAtmosValues(n,s,f,1:5)
-            end do
-          end do
-        end do
     enddo
+
+    do n=1,5
+      do s=1,4
+        do f = 1,6
+          write(*,fmt='("max: ",2(A3,","),I1," - ",33(E13.5,","))') atmosVarNames(n),seasons(s),f, MaxAtmosValues(n,s,f,1:33)
+          write(*,fmt='("min: ",2(A3,","),I1," - ",33(E13.5,","))') atmosVarNames(n),seasons(s),f, MinAtmosValues(n,s,f,1:33)
+        end do
+      end do
+    end do
+
 
 end program check
