@@ -382,15 +382,15 @@ module filesMod
         enddo
         npi=iFin-iIni+1
         npj=jFin-jIni+1
-        print *,jIni,jFin,latIni,latFin,npj
-        print *,iIni,iFin,lonIni,lonFin,npi
+        print *,'Dimensoes J: ',jIni,jFin,latIni,latFin,npj
+        print *,'Dimensoes I: ',iIni,iFin,lonIni,lonFin,npi
     
         !convert date string got from grib2 file to integer
         read(invline( 3: 6),*,iostat=iErrNumber)  iyear
         read(invline( 7: 8),*,iostat=iErrNumber)  imonth
         read(invline( 9:10),*,iostat=iErrNumber)  iday
         read(invline(11:12),*,iostat=iErrNumber)  ihour
-
+        print *,'Date from grib2 file: ',iyear,imonth,iday,ihour
         call date_add_to_dble(iyear,imonth,iday,ihour,dble(atmosHoursCount(iStep)),'h' &
                        ,iyy,imm,idd,ihh)
         print *,'Date added'
