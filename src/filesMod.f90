@@ -289,9 +289,12 @@ module filesMod
     
         !Code
 
-        if(.not. fileExist(trim(fName))) iErrNumber=dumpMessage(c_tty,c_yes,sourceName,procedureName &
-              ,c_fatal,'File '//trim(fName) &
+        if(.not. fileExist(trim(fName))) then
+          iErrNumber=dumpMessage(c_tty,c_yes,sourceName,procedureName &
+              ,c_warning,'File '//trim(fName) &
               //' not found. Please, verify and solve it!')
+              return
+        endif
 
         iErrNumber=dumpMessage(c_tty,c_yes,'','',c_notice,'Opening/reading Grib2 file: '//trim(fName))
         
