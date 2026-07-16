@@ -62,7 +62,8 @@ program check
       atmosDate, &
       atmos_Type, atmosNx,atmosNy,atmosNz, lat, atmosValues, &
       atmos_idir, &
-      grib2FilesNames
+      grib2FilesNames, &
+      MaxAtmosValues, MinAtmosValues
 
     implicit none
 
@@ -82,7 +83,7 @@ program check
     
 
     !Local variables
-    integer :: stepsBetDates 
+    integer :: stepsBetDates, n, f, s
     !# Total of steps between initial and final dates
     logical :: monthBetDates(12)
     integer :: its,i,j,k,iTime
@@ -124,6 +125,14 @@ program check
     !Read and compute max and min values for each variable in GFS data
     do its=1,stepsBetDates
         call readAtmosGrib2(its,stepsBetDates)
+        do n=1,5
+          do s=1,4
+            do f = 1,6
+              write(*,fmt='("max: ",3(I1,",")," - ",5(E13.5,","))') n,s,f," - ", MaxAtmosValues(n,s,f,1:5)
+              write(*,fmt='("min: ",3(I1,",")," - ",5(E13.5,","))') n,s,f," - ", MinAtmosValues(n,s,f,1:5)
+            end do
+          end do
+        end do
     enddo
 
 end program check
