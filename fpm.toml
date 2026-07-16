@@ -1,4 +1,4 @@
-name = "checkGFS"
+name = "geraStats"
 version = "0.1.0"
 license = "CC-GPL 3.0"
 author = "Luiz Flávio Rodrigues"

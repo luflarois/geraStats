@@ -1,14 +1,7 @@
 $ARGS_INPUT
 
-!!!!! DATE !!!!!
-!gfs.t00z.pgrb2.0p25.f000.2026062200.grib2
 init_year  = 2015,
 final_year = 2025,
-
-!!!!! ATMOS !!!!!
-atmos_type   = 1, ! Only 1 is available for now, 1=GFS
-!atmos_prefix ='gfs.t00z.pgrb2.0p25.f',
-!atmos_sufix  ='.2026062200.grib2',
 atmos_idir   ='/p/projetos/ioper/data/external/gfs_0p25/',
 levels = 33,
 initial_latitude = -90., !initial latitude for domain of model (-90 to 90)  

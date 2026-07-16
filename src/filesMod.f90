@@ -84,10 +84,8 @@ module filesMod
         !Use area
         use dump
         use memoryMod, only: &
-                  init_year ,  init_month,  init_day,  init_hour,  &
-                  final_year, final_month, final_day, final_hour,  &
-                  step,                                            &
-                  atmos_type, atmos_prefix,atmos_sufix,atmos_idir, &
+                  init_year ,&
+                  final_year, atmos_idir, &
                   levels, initial_latitude,final_latitude,         &
                   initial_longitude,final_longitude,               &
                   chem_type, chem_idir, &
@@ -112,9 +110,8 @@ module filesMod
         integer :: lunit
     
         !Code
-        NAMELIST/args_input/init_year , final_year, &
-                            atmos_type, atmos_prefix,atmos_sufix,atmos_idir, &
-                            levels, initial_latitude,final_latitude,         &
+        NAMELIST/args_input/init_year , final_year, atmos_idir, &
+                            levels, initial_latitude,final_latitude, &
                             initial_longitude,final_longitude
 
          lunit=getUnit()
@@ -126,101 +123,6 @@ module filesMod
     end subroutine readNamelist 
 
     !=============================================================================================
-    subroutine createGrib2FilesNames(numberOfSteps)
-        !# Create a set of files Names for Grib2
-        !#
-        !# @note
-        !# ![](http://brams.cptec.inpe.br/wp-content/uploads/2015/11/logo-brams.navigation.png "")
-        !#
-        !# **Brief**: Creates a set of filenames for GribFiles accordingly the initial date and
-        !# others informations from Namelist
-        !#
-        !# **Documentation**: <http://brams.cptec.inpe.br/documentation/>
-        !#
-        !# **Author(s)**: Luiz Flavio Rodrigues **&#9993;**<luiz.rodrigues@inpe.br>
-        !#
-        !# **Date**: 26 August 2020 (Wednesday)
-        !# @endnote
-        !#
-        !# @changes
-        !# &#9744; <br/>
-        !# @endchanges
-        !# @bug
-        !#
-        !#@endbug
-        !#
-        !#@todo
-        !#  &#9744; <br/>
-        !# @endtodo
-        !#
-        !# @warning
-        !# Now is under CC-GPL License, please see
-        !# &copy; <https://creativecommons.org/licenses/GPL/2.0/legalcode.pt>
-        !# @endwarning
-        !#
-        
-        !Use area
-        use dump
-        use memoryMod, only: &
-            atmos_prefix, &
-            atmos_sufix, &
-            atmos_idir, &
-            step, &
-            grib2FilesNames, &
-            grib2InvFilesNames, &
-            atmosDate, &
-            atmosHoursCount
-    
-        implicit none
-    
-        include "constants.h"
-        character(len=*),parameter :: procedureName='**createGrib2FilesNames**' !Name of this procedure
-        !
-        !Local Parameters
-        character(len=69) :: line='+--+----------------------------------------------------------------+'
-    
-        !Input/Output variables
-        integer, intent(in) :: numberOfSteps
-    
-        !Local variables
-        integer :: i
-
-        if(allocated(grib2FilesNames)) iErrNumber=dumpMessage(c_tty,c_yes,sourceName,procedureName &
-              ,c_fatal,' grib2FilesNames array already allocated with size=',size(grib2FilesNames),"I2.2")
-
-        allocate(grib2FilesNames(numberOfSteps))
-
-        if(allocated(grib2InvFilesNames)) iErrNumber=dumpMessage(c_tty,c_yes,sourceName,procedureName &
-              ,c_fatal,' grib2InvFilesNames array already allocated with size=',size(grib2InvFilesNames),"I2.2")
-
-        allocate(grib2InvFilesNames(numberOfSteps))
-        allocate(atmosHoursCount(numberOfSteps))
-
-        !Code
-
-        do i=1,numberOfSteps
-            write(grib2FilesNames(i),fmt='(A,I3.3,A)') trim(atmos_prefix),(i-1)*step,trim(atmos_sufix)
-            write(grib2InvFilesNames(i),fmt='(A,I3.3,A)') trim(atmos_prefix),(i-1)*step,trim(atmos_sufix)//'.inv'
-            atmosHoursCount(i)=(i-1)*step
-            !print *,trim(grib2FilesNames(i))
-            !print *,trim(grib2InvFilesNames(i))
-        enddo
-
-        iErrNumber=dumpMessage(c_tty,c_yes,'','',c_notice,'Grib2 file names inventory:')
-        write(*,fmt='(A)') line
-        do i=1,numberOfSteps
-            write(*,fmt='("|",I2.2,"|",A64,"|")') i,trim(grib2FilesNames(i))
-            write(*,fmt='(A)') line
-        enddo
-
-        if(allocated(atmosDate)) iErrNumber=dumpMessage(c_tty,c_yes,sourceName,procedureName &
-              ,c_fatal,' atmosDate array already allocated with size=',size(atmosDate),"I2.2")
-        allocate(atmosDate(numberOfSteps))
-    
-        !/p/projetos/ioper/data/external/gfs_0p25/2025/12/01/00/gfs.t00z.pgrb2.0p25.f000.2025120100.grib2
-        !                                         AAAA/MM/DD/HH/     12                          12
-    
-    end subroutine createGrib2FilesNames 
 
 
     !=============================================================================================
@@ -377,9 +279,10 @@ module filesMod
         character(len=256) :: fName,fNameI,fNameB
         character(len=3) :: ncl
 
-        fName=trim(atmos_idir)//trim(grib2FilesNames(iStep))
-        fNameI=trim(grib2InvFilesNames(iStep))
-        fNameB=trim(grib2FilesNames(iStep))//'.blow'
+        fName=trim(grib2FilesNames(iStep))
+        print *,'Opening/reading Grib2 file: '//trim(fName)
+        fNameI=get_basename_noext(trim(grib2FilesNames(iStep)))//'.inv'
+        fNameB=get_basename_noext(trim(grib2FilesNames(iStep)))//'.blow'
     
         ! Read the header of input pressure file.
         varName(1)=':'//temperature_varname//':'
@@ -614,6 +517,33 @@ module filesMod
     
     end subroutine readAtmosGrib2 
 
+    function get_basename_noext(fullpath) result(basename)
+        implicit none
+        character(len=*), intent(in) :: fullpath
+        character(len=:), allocatable :: basename
+
+        integer :: last_slash, last_dot, start_pos
+
+        ! 1. Encontrar a última barra
+        last_slash = scan(fullpath, '/', back=.true.)
+        if (last_slash == 0) then
+            start_pos = 1               ! não há barra, começa do início
+        else
+            start_pos = last_slash + 1  ! posição do primeiro caractere após a barra
+        end if
+
+        ! 2. Encontrar o último ponto a partir da posição start_pos
+        last_dot = scan(fullpath(start_pos:), '.', back=.true.)
+        if (last_dot == 0) then
+            ! Sem extensão, retorna toda a substring a partir de start_pos
+            basename = fullpath(start_pos:)
+        else
+            ! Ajustar last_dot para índice global
+            last_dot = last_dot + start_pos - 1
+            basename = fullpath(start_pos:last_dot-1)
+        end if
+
+    end function get_basename_noext
 
     !=============================================================================================
     subroutine writeGradsCtlFile(iTime,nSpc,values,nx,ny,nz,lon,lat,dlon,dlat,levs)

@@ -46,13 +46,7 @@ program check
 
     use filesMod, only: &
       readNamelist, &
-      createGrib2FilesNames, &
-      !createEra5FilesNames, &
-      readAtmosGrib2, &
-      read_era5_data
-      !createCamsFilesNames, &
-      !readCamsFile, &
-      !readAtmosEra5
+      readAtmosGrib2
 
     use memoryMod, only: &
       init_year, &
@@ -118,9 +112,14 @@ program check
       call readNamelist(namelistFile)
     endif
 
+    print *, 'Initial Year: ', init_year
+    print *, 'Final Year: ', final_year
+
     !Create the name of files input for GFS data
     grib2FilesNames =  gerar_lista(trim(atmos_idir), init_year, final_year)
     stepsBetDates = size(grib2FilesNames)
+
+    print *, 'Total of files between initial and final dates: ', stepsBetDates
     
     !Read and compute max and min values for each variable in GFS data
     do its=1,stepsBetDates
