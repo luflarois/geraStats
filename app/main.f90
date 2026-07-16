@@ -39,7 +39,6 @@ program check
       fileExist, &
       initAll, &
       stepsBetweenDates, &
-      monthsBetweenDates, &
       to_upper, &
       getUnit, &
       releaseUnit, &
@@ -67,10 +66,9 @@ program check
       step, &
       chemDate, &
       atmosDate, &
-      atmos_Type, atmosNx,atmosNy,atmosNz, lat, atmosValues
-
-    use modCompare, only: &
-      compare
+      atmos_Type, atmosNx,atmosNy,atmosNz, lat, atmosValues, &
+      atmos_idir, &
+      grib2FilesNames
 
     implicit none
 
